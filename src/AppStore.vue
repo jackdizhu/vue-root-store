@@ -26,7 +26,7 @@ import Select from './components/SelectVue.vue'
 // import Select from './components/SelectVueStore.vue'
 import Option from './components/OptionVue.vue'
 import Item from './components/OptionItem.vue'
-import rootStore from './rootStore'
+import {rootMixin} from './rootStore'
 
 export default {
   name: 'App',
@@ -35,31 +35,23 @@ export default {
     Item,
     Option
   },
+  mixins: [rootMixin],
   data () {
     return {
       list: [
         {name: 'Option-1'},
         {name: 'Option-2'}
       ],
-      value: '',
-      state: rootStore.state
+      value: ''
     }
   },
-  watch: {
-    ...rootStore.watch
-  },
-  computed: {
-    ...rootStore.computed
-  },
   methods: {
-    ...rootStore.methods,
     onChange (val) {
       this.value = val
       console.log(val, 'onChange')
     }
   },
   created () {
-    rootStore.init(this)
   }
 }
 </script>

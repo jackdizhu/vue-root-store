@@ -1,7 +1,7 @@
 <template>
   <div>
     <span>
-      {{getVersion}} -- {{getStoreVersion}}
+      {{getStoreVersion}}
     </span>
     <!-- <Select @onChange="onChange">
       <div class="option-box">
@@ -23,7 +23,7 @@
 // import Select from './components/SelectVueStore.vue'
 // import Option from './components/OptionVue.vue'
 // import Item from './components/OptionItem.vue'
-import {storeMixin, mutation, getter} from './rootStore'
+import {storeMixin} from './rootStore'
 
 export default {
   name: 'page1',
@@ -43,9 +43,6 @@ export default {
     }
   },
   computed: {
-    getVersion () {
-      return getter.getVersion()
-    },
     getStoreVersion () {
       return this.getStoreData('version')
     }
@@ -56,16 +53,19 @@ export default {
     },
     log (nVal) {
       console.log(nVal, '-- watch state.version --')
+    },
+    addVersion ({key, num}) {
+      let arr = this.getStoreVersion.split('.')
+      arr[key - 1] = Number(arr[key - 1]) + num
+      return arr.join('.')
     }
   },
   created () {
     this.addWatch('state.version', this.log)
     console.log(this.rootStore.state, '--page1.root.rootStore--')
-    if (this.getStoreVersion.length === 5) {
-      this.setStoreData('version', '0.0.9')
-    } 
+    this.setStoreData('version', this.addVersion({key: 3, num: 1}))
     setTimeout(() => {
-      mutation.addVersion.call(this, {key: 3, num: 1})
+      this.setStoreData('version', this.addVersion({key: 3, num: 1}))
     }, 1000)
   },
   

@@ -45,7 +45,7 @@ export default {
     }
   },
   created () {
-    console.log(this.$root.$children[0], '--page2.$root.$children[0]--')
+    console.log(this.$root.$children[0], '-- page2.$root.$children[0] --')
   }
 }
 </script>
