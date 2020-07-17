@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [['$','$'], ['\\(','\\)']]}});</script>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS": {"availableFonts":["TeX"],"scale": 150}});</script>
+
+<style>
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback";
+	font-size: 14px;
+	padding: 0 12px;
+	line-height: 22px;
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	color: #4080D0;
+	text-decoration: none;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+h1 code,
+h2 code,
+h3 code,
+h4 code,
+h5 code,
+h6 code {
+	font-size: inherit;
+	line-height: auto;
+}
+
+a:hover {
+	color: #4080D0;
+	text-decoration: underline;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left: 5px solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 14px;
+	line-height: 19px;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+.mac code {
+	font-size: 12px;
+	line-height: 18px;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+/** Theming */
+
+.vscode-light,
+.vscode-light pre code {
+	color: rgb(30, 30, 30);
+}
+
+.vscode-dark,
+.vscode-dark pre code {
+	color: #DDD;
+}
+
+.vscode-high-contrast,
+.vscode-high-contrast pre code {
+	color: white;
+}
+
+.vscode-light code {
+	color: #A31515;
+}
+
+.vscode-dark code {
+	color: #D7BA7D;
+}
+
+.vscode-light pre:not(.hljs),
+.vscode-light code > div {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre:not(.hljs),
+.vscode-dark code > div {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre:not(.hljs),
+.vscode-high-contrast code > div {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+.vscode-light blockquote,
+.vscode-dark blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.vscode-high-contrast blockquote {
+	background: transparent;
+	border-color: #fff;
+}
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+</style>
+
+</head>
+<body>
+<h1 id="vue-select-options">vue-select-options</h1>
+<h2 id="appvue">App.vue</h2>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"app"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">Select</span> @<span class="hljs-attr">onChange</span>=<span class="hljs-string">"onChange"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"option-box"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">Option</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"(item, index) in list"</span>
+          <span class="hljs-attr">:key</span>=<span class="hljs-string">"index"</span>
+          <span class="hljs-attr">:name</span>=<span class="hljs-string">"item.name"</span>
+          <span class="hljs-attr">:checked</span>=<span class="hljs-string">"value === item.name"</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">Item</span>&gt;</span>
+            {{'Item-' + item.name}}
+          <span class="hljs-tag">&lt;/<span class="hljs-name">Item</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">Option</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">Select</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+<span class="hljs-keyword">import</span> Select <span class="hljs-keyword">from</span> <span class="hljs-string">'./components/SelectVue.vue'</span>
+<span class="hljs-keyword">import</span> Option <span class="hljs-keyword">from</span> <span class="hljs-string">'./components/OptionVue.vue'</span>
+<span class="hljs-keyword">import</span> Item <span class="hljs-keyword">from</span> <span class="hljs-string">'./components/OptionItem.vue'</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  <span class="hljs-attr">name</span>: <span class="hljs-string">'App'</span>,
+  <span class="hljs-attr">components</span>: {
+    Select,
+    Item,
+    Option
+  },
+  data () {
+    <span class="hljs-keyword">return</span> {
+      <span class="hljs-attr">list</span>: [
+        {<span class="hljs-attr">name</span>: <span class="hljs-string">'Option-1'</span>},
+        {<span class="hljs-attr">name</span>: <span class="hljs-string">'Option-2'</span>}
+      ],
+      <span class="hljs-attr">value</span>: <span class="hljs-string">''</span>
+    }
+  },
+  <span class="hljs-attr">methods</span>: {
+    onChange (val) {
+      <span class="hljs-keyword">this</span>.value = val
+      <span class="hljs-built_in">console</span>.log(val, <span class="hljs-string">'onChange'</span>)
+    }
+  }
+}
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="css">
+<span class="hljs-selector-id">#app</span> {
+  <span class="hljs-attribute">font-family</span>: Avenir, Helvetica, Arial, sans-serif;
+  <span class="hljs-attribute">-webkit-font-smoothing</span>: antialiased;
+  <span class="hljs-attribute">-moz-osx-font-smoothing</span>: grayscale;
+  <span class="hljs-attribute">text-align</span>: center;
+  <span class="hljs-attribute">color</span>: <span class="hljs-number">#2c3e50</span>;
+  <span class="hljs-attribute">margin-top</span>: <span class="hljs-number">60px</span>;
+}
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+</div></code></pre>
+<h2 id="selectvuevue">SelectVue.vue</h2>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"select-vue"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>选中：{{checkName}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">slot</span>/&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  <span class="hljs-attr">name</span>: <span class="hljs-string">'SelectVue'</span>,
+  <span class="hljs-comment">// 向下级组件注入</span>
+  provide () {
+    <span class="hljs-keyword">return</span> {
+      <span class="hljs-attr">SelectVue</span>: <span class="hljs-keyword">this</span>,
+      <span class="hljs-attr">checkValue</span>: <span class="hljs-keyword">this</span>.checkName,
+      <span class="hljs-attr">SelectRoot</span>: <span class="hljs-keyword">this</span>.SelectRoot
+    }
+  },
+  data () {
+    <span class="hljs-keyword">return</span> {
+      <span class="hljs-attr">checkName</span>: <span class="hljs-string">''</span>,
+      <span class="hljs-attr">SelectRoot</span>: {
+        <span class="hljs-attr">value</span>: <span class="hljs-string">''</span>
+      }
+    }
+  },
+  <span class="hljs-attr">methods</span>: {
+    optionClick (event, vNode) {
+      <span class="hljs-keyword">this</span>.checkName = vNode.name
+      <span class="hljs-keyword">this</span>.emit()
+    },
+    emit () {
+      <span class="hljs-keyword">this</span>.SelectRoot.value = <span class="hljs-keyword">this</span>.checkName
+      <span class="hljs-keyword">this</span>.$emit(<span class="hljs-string">'onChange'</span>, <span class="hljs-keyword">this</span>.checkName)
+    },
+    <span class="hljs-comment">// 查找指定下级组件</span>
+    getChildren ($children, tag) {
+      <span class="hljs-keyword">let</span> arr = []
+      <span class="hljs-keyword">if</span> (!$children || !$children.length) {
+        <span class="hljs-keyword">return</span> arr
+      }
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; $children.length; i++) {
+        <span class="hljs-keyword">const</span> item = $children[i]
+        <span class="hljs-keyword">if</span> (item.$options.name === tag) {
+          arr.push(item)
+        } <span class="hljs-keyword">else</span> {
+          arr.push(...this.getChildren(item.$children, tag))
+        }
+      }
+      <span class="hljs-keyword">return</span> arr
+    }
+  },
+  created () {
+    <span class="hljs-keyword">this</span>.$on(<span class="hljs-string">'optionClick'</span>, <span class="hljs-keyword">this</span>.optionClick)
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.$children.length, <span class="hljs-string">'created $children.length'</span>)
+  },
+  mounted () {
+    <span class="hljs-comment">// 子组件mounted后触发</span>
+    <span class="hljs-keyword">let</span> $children = <span class="hljs-keyword">this</span>.getChildren(<span class="hljs-keyword">this</span>.$children, <span class="hljs-string">'OptionVue'</span>)
+    <span class="hljs-built_in">console</span>.log($children.length, <span class="hljs-string">'mounted $children.length'</span>)
+    <span class="hljs-keyword">if</span> ($children.length) {
+      <span class="hljs-keyword">this</span>.checkName = $children[<span class="hljs-number">0</span>].name
+      <span class="hljs-keyword">this</span>.emit()
+    }
+  }
+}
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">scoped</span>&gt;</span><span class="css">
+<span class="hljs-selector-class">.select-vue</span> {
+  <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid <span class="hljs-number">#ddd</span>;
+  <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">3px</span>;
+}
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+</div></code></pre>
+<h2 id="optionvuevue">OptionVue.vue</h2>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"OptionVue"</span>
+    <span class="hljs-attr">:class</span>=<span class="hljs-string">"{'OptionVue-checked': checked}"</span>
+    @<span class="hljs-attr">click</span>=<span class="hljs-string">"onClick"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">slot</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">"$slots.default"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">v-else</span>&gt;</span>{{name}}<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  <span class="hljs-attr">name</span>: <span class="hljs-string">'OptionVue'</span>,
+  <span class="hljs-comment">// 基础数据类型不响应，object类型可以watch</span>
+  inject: [<span class="hljs-string">'SelectVue'</span>, <span class="hljs-string">'checkValue'</span>, <span class="hljs-string">'SelectRoot'</span>], <span class="hljs-comment">// 接收上级组件注入</span>
+  props: {
+    <span class="hljs-attr">checked</span>: {
+      <span class="hljs-attr">type</span>: <span class="hljs-built_in">Boolean</span>,
+      <span class="hljs-attr">default</span>: <span class="hljs-literal">false</span>
+    },
+    <span class="hljs-attr">name</span>: {
+      <span class="hljs-attr">type</span>: <span class="hljs-built_in">String</span>,
+      <span class="hljs-attr">default</span>: <span class="hljs-string">''</span>
+    }
+  },
+  data () {
+    <span class="hljs-keyword">return</span> {
+      <span class="hljs-attr">selectVueVNode</span>: <span class="hljs-literal">null</span>
+    }
+  },
+  <span class="hljs-attr">watch</span>: {
+    <span class="hljs-comment">// 无效</span>
+    <span class="hljs-string">'checkValue'</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">nVal</span>) </span>{
+      <span class="hljs-built_in">console</span>.log(nVal, <span class="hljs-string">'watch checkValue -- '</span> + <span class="hljs-keyword">this</span>.name)
+    },
+    <span class="hljs-comment">// // inject Object</span>
+    <span class="hljs-comment">// 'SelectRoot': {</span>
+    <span class="hljs-comment">//   handler: function (nVal) {</span>
+    <span class="hljs-comment">//     console.log(nVal, 'watch SelectRoot -- ' + this.name)</span>
+    <span class="hljs-comment">//   },</span>
+    <span class="hljs-comment">//   deep: true</span>
+    <span class="hljs-comment">// },</span>
+    <span class="hljs-comment">// // vNode data</span>
+    <span class="hljs-comment">// 'selectVueVNode.checkName': function (nVal) {</span>
+    <span class="hljs-comment">//   console.log(nVal, 'watch selectVueVNode.checkName -- ' + this.name)</span>
+    <span class="hljs-comment">// },</span>
+    <span class="hljs-string">'selectVueVNode.SelectRoot'</span>: {
+      <span class="hljs-attr">handler</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">nVal</span>) </span>{
+        <span class="hljs-built_in">console</span>.log(nVal.value, <span class="hljs-string">'selectVueVNode.SelectRoot watch in -- '</span> + <span class="hljs-keyword">this</span>.name)
+      },
+      <span class="hljs-attr">deep</span>: <span class="hljs-literal">true</span>
+    }
+  },
+  <span class="hljs-attr">methods</span>: {
+    <span class="hljs-comment">// 查找指定上级组件</span>
+    getParent ($parent, tag) {
+      <span class="hljs-keyword">if</span> (!$parent || $parent === <span class="hljs-keyword">this</span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>
+      }
+      <span class="hljs-keyword">if</span> ($parent.$options.name === tag) {
+        <span class="hljs-keyword">return</span> $parent
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getParent($parent.$parent, tag)
+      }
+    },
+    onClick () {
+      <span class="hljs-keyword">this</span>.selectVueVNode &amp;&amp; <span class="hljs-keyword">this</span>.selectVueVNode.$emit(<span class="hljs-string">'optionClick'</span>, <span class="hljs-keyword">this</span>.name, <span class="hljs-keyword">this</span>)
+      <span class="hljs-keyword">this</span>.$emit(<span class="hljs-string">'optionClick'</span>, <span class="hljs-keyword">this</span>.name)
+    }
+  },
+  created () {
+    <span class="hljs-comment">// 获取上级SelectVue对象vNode</span>
+    <span class="hljs-keyword">this</span>.selectVueVNode = <span class="hljs-keyword">this</span>.SelectVue || <span class="hljs-keyword">this</span>.getParent(<span class="hljs-keyword">this</span>.$parent, <span class="hljs-string">'SelectVue'</span>)
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.selectVueVNode, <span class="hljs-string">'created selectVueVNode'</span>)
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.$parent, <span class="hljs-string">'created $parent'</span>)
+  },
+  mounted () {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.$parent, <span class="hljs-string">'mounted $parent'</span>)
+  }
+}
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">scoped</span>&gt;</span><span class="css">
+<span class="hljs-selector-class">.OptionVue</span> {
+  <span class="hljs-attribute">cursor</span>: pointer;
+}
+<span class="hljs-selector-class">.OptionVue-checked</span> {
+  <span class="hljs-attribute">background</span>: <span class="hljs-number">#eee</span>;
+}
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+</div></code></pre>
+<h2 id="optionitemvue">OptionItem.vue</h2>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"OptionItem"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">slot</span>/&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  <span class="hljs-attr">name</span>: <span class="hljs-string">'OptionItem'</span>,
+  <span class="hljs-attr">inject</span>: [<span class="hljs-string">'SelectVue'</span>], <span class="hljs-comment">// 接收上级组件注入</span>
+  methods: {
+    getParent ($parent) {
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.SelectVue) {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.SelectVue
+      }
+      <span class="hljs-comment">// 根据vNode向上查找</span>
+      <span class="hljs-keyword">if</span> (!$parent || $parent === <span class="hljs-keyword">this</span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>
+      }
+      <span class="hljs-keyword">if</span> ($parent.$option.name === <span class="hljs-string">'SelectVue'</span>) {
+        <span class="hljs-keyword">return</span> $parent
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getParent($parent.$parent)
+      }
+    },
+    onClick () {
+      <span class="hljs-keyword">let</span> vNode = <span class="hljs-keyword">this</span>.getParent(<span class="hljs-keyword">this</span>.$parent)
+      vNode &amp;&amp; vNode.$emit(<span class="hljs-string">'optionClick'</span>, <span class="hljs-keyword">this</span>.name, <span class="hljs-keyword">this</span>)
+      <span class="hljs-keyword">this</span>.$emit(<span class="hljs-string">'optionClick'</span>, <span class="hljs-keyword">this</span>.name)
+    }
+  },
+  created () {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.SelectVue, <span class="hljs-string">'created $parent.$parent inject SelectVue'</span>)
+  }
+}
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">scoped</span>&gt;</span><span class="css">
+<span class="hljs-selector-class">.OptionItem</span> {
+  <span class="hljs-attribute">border-top</span>: <span class="hljs-number">1px</span> solid <span class="hljs-number">#ddd</span>;
+}
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+</div></code></pre>
+
+</body>
+</html>
