@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    {{state.version}}
+    {{getStoreVersion}}
     <Select @onChange="onChange">
       <div class="option-box">
         <Option v-for="(item, index) in list"
@@ -26,7 +26,7 @@ import Select from './components/SelectVue.vue'
 // import Select from './components/SelectVueStore.vue'
 import Option from './components/OptionVue.vue'
 import Item from './components/OptionItem.vue'
-import {rootMixin} from './rootStore'
+import {storeMixin} from './rootStore'
 
 export default {
   name: 'App',
@@ -35,7 +35,7 @@ export default {
     Item,
     Option
   },
-  mixins: [rootMixin],
+  mixins: [storeMixin],
   data () {
     return {
       list: [
@@ -49,6 +49,11 @@ export default {
     onChange (val) {
       this.value = val
       console.log(val, 'onChange')
+    }
+  },
+  computed: {
+    getStoreVersion () {
+      return this.getStoreData('version')
     }
   },
   created () {

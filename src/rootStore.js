@@ -1,11 +1,11 @@
 let $root = null
 
 const storeUtil = {
-  root: function (vNode) {
-    // console.log(vNode.$root.$children[0], vNode.$root.$children[0] === vNode) // true
+  root: function (vNode, type) {
+    console.log(type, vNode.$root === vNode) // true
     if (!$root) {
-      if (vNode.$root && vNode.$root.$children.length) {
-        $root = vNode.$root.$children[0]
+      if (type && vNode.$root) {
+        $root = vNode.$root
       } else {
         throw new Error('$root is not found')
       }
@@ -49,7 +49,7 @@ export const rootMixin = {
       this.getStoreData(key, data)
     }
   },
-  beforeCreated () {
+  created () {
     $root = storeUtil.root(this, 'app')
   }
 }
