@@ -7,7 +7,7 @@
           :key="index"
           :name="item.name"
           :checked="value === item.name">
-          <Item>
+          <Item :value="item.name" :context="{value: value}">
             {{'Item-' + item.name}}
           </Item>
         </Option>
@@ -25,7 +25,8 @@
 import Select from './components/SelectVue.vue'
 // import Select from './components/SelectVueStore.vue'
 import Option from './components/OptionVue.vue'
-import Item from './components/OptionItem.vue'
+// import Item from './components/OptionItem.vue'
+import Item from './components/OptionItemFunctional.vue'
 import {storeMixin} from './rootStore'
 
 export default {

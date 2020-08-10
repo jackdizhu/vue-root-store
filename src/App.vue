@@ -36,10 +36,7 @@ export default {
         {name: 'Option-1'},
         {name: 'Option-2'}
       ],
-      value: '',
-      rootStore: {
-        test: '111--11'
-      }
+      value: ''
     }
   },
   methods: {
@@ -49,7 +46,6 @@ export default {
     }
   },
   created () {
-    console.log(this.rootStore)
   }
 }
 </script>
