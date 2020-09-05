@@ -6,9 +6,7 @@
           :key="index"
           :name="item.name"
           :checked="value === item.name">
-          <Item>
-            {{'Item-' + item.name}}
-          </Item>
+          {{'Item-' + item.name}}
         </Option>
       </div>
     </Select>
@@ -16,20 +14,15 @@
 </template>
 
 <script>
-// import Select from './components/SelectVue.vue'
-import Select from './components/SelectVueStore.vue'
-import Option from './components/OptionVue.vue'
-import Item from './components/OptionItem.vue'
-import {storeMixin} from './rootStore'
+import Select from '@lib/select-vue/index.js'
+import Option from '@lib/select-option/index.js'
 
 export default {
   name: 'page2',
   components: {
     Select,
-    Item,
     Option
   },
-  mixins: [storeMixin],
   data () {
     return {
       list: [

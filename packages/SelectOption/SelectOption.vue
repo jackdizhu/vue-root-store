@@ -1,6 +1,6 @@
 <template>
-  <div class="OptionVue"
-    :class="{'OptionVue-checked': checked}"
+  <div class="SelectOption"
+    :class="{'SelectOption-checked': checked}"
     @click="onClick">
     <slot v-if="$slots.default"/>
     <span v-else>{{name}}</span>
@@ -10,7 +10,7 @@
 <script>
 
 export default {
-  name: 'OptionVue',
+  name: 'SelectOption',
   // 基础数据类型不响应，object类型可以watch
   inject: ['debug', 'SelectVue', 'checkValue', 'SelectRoot'], // 接收上级组件注入
   props: {
@@ -81,10 +81,10 @@ export default {
 </script>
 
 <style scoped>
-.OptionVue {
+.SelectOption {
   cursor: pointer;
 }
-.OptionVue-checked {
+.SelectOption-checked {
   background: #eee;
 }
 </style>
