@@ -43,17 +43,20 @@ module.exports = {
     output: {
       globalObject: "this",
       // 文件名称
-      filename: "[name]/index.js",
+      filename: "[name].js",
       // 构建依赖类型
-      libraryTarget: "umd",
+      libraryTarget: "commonjs2",
       // 库中被导出的项
-      // libraryExport: "default",
+      libraryExport: "default",
       // 引用时的依赖名
       library: {
         root: 'npmComponents1',
         amd: 'npmComponents1',
         commonjs: 'npmComponents1'
       },
+    },
+    optimization: {
+      minimize: false
     }
   },
   chainWebpack: config => {

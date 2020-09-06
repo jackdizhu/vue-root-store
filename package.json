@@ -7,10 +7,11 @@
     "serve": "vue-cli-service serve --mode spa",
     "build": "vue-cli-service build",
     "inspect": "vue-cli-service --mode lib inspect > output.js",
-    "lib-all": "vue-cli-service build --target lib --name npm-components-1 --dest lib packages/index.js --mode lib",
     "lib": "vue-cli-service build --mode lib",
+    "report": "vue-cli-service build --mode lib --report",
     "lint": "vue-cli-service lint"
   },
+  "main": "lib/index.js",
   "dependencies": {
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
