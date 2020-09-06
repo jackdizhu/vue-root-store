@@ -3,6 +3,7 @@ const path = require('path')
 
 const libPath = path.resolve(__dirname, 'lib')
 const pkgPath = path.resolve(__dirname, 'packages')
+// const nodeExternals = require('webpack-node-externals')()
 
 function upperCasetoLine(str) {
   let temp = str.replace(/[A-Z]/g, function (match) {
@@ -26,12 +27,17 @@ function getComponents(dir) {
 }
 
 module.exports = {
+  productionSourceMap: false,
   pages: {
     index: {
       entry: 'packages/index.js',
       template: 'public/index.html',
       filename: 'index.html'
     }
+  },
+  css: {
+    extract: true,
+    requireModuleExtension: true
   },
   // 输出文件目录
   outputDir: libPath,
@@ -43,7 +49,7 @@ module.exports = {
     output: {
       globalObject: "this",
       // 文件名称
-      filename: "[name].js",
+      filename: "[name]/index.js",
       // 构建依赖类型
       libraryTarget: "commonjs2",
       // 库中被导出的项
@@ -55,11 +61,20 @@ module.exports = {
         commonjs: 'npmComponents1'
       },
     },
+    // externals: [nodeExternals],
+    // performance: {
+    //   hints: false
+    // },
+    // stats: 'none',
     optimization: {
       minimize: false
     }
   },
   chainWebpack: config => {
+    config.plugin('extract-css').tap(args => [{
+      filename: '[name]/style.css',
+      chunkFilename: '[name]/style.css'
+    }])
     config.optimization.delete('splitChunks')
     config.resolve.alias
     .set("@assets", path.resolve(__dirname, './assets'))
