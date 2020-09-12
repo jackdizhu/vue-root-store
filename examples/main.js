@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 
-import lib from '@lib/index.js'
+import lib from '@lib/index/index.js'
 // import SelectVue from '@lib/select-vue.js'
 Vue.use(lib)
 

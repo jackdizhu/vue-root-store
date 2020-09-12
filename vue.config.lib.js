@@ -3,7 +3,7 @@ const path = require('path')
 
 const libPath = path.resolve(__dirname, 'lib')
 const pkgPath = path.resolve(__dirname, 'packages')
-// const nodeExternals = require('webpack-node-externals')()
+const nodeExternals = require('webpack-node-externals')()
 
 function upperCasetoLine(str) {
   let temp = str.replace(/[A-Z]/g, function (match) {
@@ -61,7 +61,7 @@ module.exports = {
         commonjs: 'npmComponents1'
       },
     },
-    // externals: [nodeExternals],
+    externals: [nodeExternals], // 忽略node_modules
     // performance: {
     //   hints: false
     // },
@@ -71,10 +71,21 @@ module.exports = {
     }
   },
   chainWebpack: config => {
+    config.plugins.delete('html-index').delete('preload-index').delete('prefetch-index')
+
     config.plugin('extract-css').tap(args => [{
       filename: '[name]/style.css',
       chunkFilename: '[name]/style.css'
     }])
+    config.plugin('copy').tap(args => [
+      [
+        // {
+        //   from: '/home/one/Desktop/web/vue-root-store/public/favicon.ico',
+        //   to: '/home/one/Desktop/web/vue-root-store/lib',
+        //   toType: 'dir',
+        // }
+      ]
+    ])
     config.optimization.delete('splitChunks')
     config.resolve.alias
     .set("@assets", path.resolve(__dirname, './assets'))

@@ -14,8 +14,10 @@
 </template>
 
 <script>
-import Select from '@lib/select-vue.js'
-import Option from '@lib/select-option.js'
+import Select from '@lib/select-vue/index.js'
+import '@lib/select-vue/style.css'
+import Option from '@lib/select-option/index.js'
+import '@lib/select-option/style.css'
 
 export default {
   name: 'page2',
