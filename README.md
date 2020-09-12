@@ -1,37 +1,8 @@
-# vue-root-store
+# vue lib packages
 
-* 根据$root关联store，而不需要注入全局mixin
-* 按需引入mixin，有getStoreData、setStoreData、addWatch、removeWatch等方法
-* [store]分支 - root注入rootMixin(必须)，page注入storeMixin(按需)
-* [store]分支 - rootMixin注入到root(main.js中的new Vue)
-
-## functional 无状态组件
-
-```vue
-<template functional>
-  <div class="OptionItem" :class="{'active': props.value === props.context.value}">
-    <slot/>
-  </div>
-</template>
-
-<script>
-export default {
-  name: 'OptionItem',
-  functional: true,
-  props: {
-    value: {
-      type: String,
-      default: ''
-    },
-    context: {
-      type: Object,
-      default: () => {
-        return {
-          value: ''
-        }
-      }
-    }
-  }
-}
-</script>
-```
+* 配置启动模式 vue-cli-service build --mode lib 区分开发,打包状态
+* 配置多入口 entry: getComponents(pkgPath) 打包支持按需引入
+* 配置 output 打包commonjs2类型
+* 删除配置 config.optimization.delete('splitChunks') 禁止webpack分包
+* 删除 config.plugins.delete('html-index').delete('preload-index').delete('prefetch-index') 取消index.html 入口文件
+* 修改 config.plugin('extract-css') 插件配置定义打包style名称
