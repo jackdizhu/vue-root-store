@@ -1,3 +1,3 @@
-import SelectVue from "./SelectVue"
+import SelectVue from "./SelectVue.vue"
 
 export default SelectVue
