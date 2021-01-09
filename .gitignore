@@ -1,2 +1,7 @@
 node_modules
 package-lock.json
+# public/module-demo
+public/group
+dist/
+*.local
+*.map

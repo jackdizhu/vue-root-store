@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "npm run serve",
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --mode spa-module-dev",
+    "inspect": "vue-cli-service inspect --mode spa-module-dev >vue.config.local",
+    "build-module": "vue-cli-service build --mode spa-module-prod",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
@@ -22,20 +24,6 @@
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
     "vue-template-compiler": "^2.6.11"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {}
   },
   "browserslist": [
     "> 1%",

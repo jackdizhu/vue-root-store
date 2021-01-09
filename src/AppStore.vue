@@ -1,60 +1,30 @@
 <template>
-  <div id="app">
-    {{getStoreVersion}}
-    <Select @onChange="onChange">
-      <div class="option-box">
-        <Option v-for="(item, index) in list"
-          :key="index"
-          :name="item.name"
-          :checked="value === item.name">
-          <Item :value="item.name" :context="{value: value}">
-            {{'Item-' + item.name}}
-          </Item>
-        </Option>
-      </div>
-    </Select>
+  <div>
     <p>
       <a @click="$router.push('/page1')">page1</a>
       <a @click="$router.push('/page2')">page2</a>
+      <a @click="$router.push('/spa-module/module-demo')">spa-module</a>
     </p>
     <router-view/>
   </div>
 </template>
 
 <script>
-import Select from './components/SelectVue.vue'
-// import Select from './components/SelectVueStore.vue'
-import Option from './components/OptionVue.vue'
-// import Item from './components/OptionItem.vue'
-import Item from './components/OptionItemFunctional.vue'
 import {storeMixin} from './rootStore'
 
 export default {
   name: 'App',
   components: {
-    Select,
-    Item,
-    Option
   },
   mixins: [storeMixin],
   data () {
     return {
-      list: [
-        {name: 'Option-1'},
-        {name: 'Option-2'}
-      ],
-      value: ''
     }
   },
   methods: {
     onChange (val) {
       this.value = val
       console.log(val, 'onChange')
-    }
-  },
-  computed: {
-    getStoreVersion () {
-      return this.getStoreData('version')
     }
   },
   created () {
