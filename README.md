@@ -8,3 +8,9 @@ npm run build-module
 npm run dev
 # 点击spa-module查看效果
 ```
+
+2. 问题点
+
+> 子应用数据缓存
+> 子应用创建、销毁处理
+> 应用路由，css隔离
